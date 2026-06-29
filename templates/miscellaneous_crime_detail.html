@@ -1,0 +1,173 @@
+{% extends "base.html" %} {% block title %}{{ crime.title }} – CyberSafe QR{% endblock %} {% block content %}
+<main class="scenarios-container" style="margin-top: 20px; min-height: 90vh;">
+    <div style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <a href="{{ url_for('miscellaneous_crimes') }}" class="explore-btn" style="text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.95rem;">
+            <i class="fa-solid fa-arrow-left"></i> Back to Miscellaneous Crimes
+        </a>
+    </div>
+
+    <section style="margin-bottom: 50px;">
+        <div class="category-banner color-misc" style="margin-bottom: 24px; padding: 28px; border-radius: 20px;">
+            <div class="banner-content">
+                <h2 style="margin-bottom: 10px;">{{ crime.title }}</h2>
+                <p style="margin: 0;">{{ crime.definition }}</p>
+            </div>
+        </div>
+
+        <div class="section-header" style="text-align: left; margin-bottom: 24px; max-width: 100%;">
+            <h3>What is this offence?</h3>
+            <p>Understand the core idea behind the crime and how it can affect people and systems.</p>
+        </div>
+        <div class="warning-signs-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            <div class="warning-sign-card" style="background: var(--white); padding: 24px; border-radius: 12px; border: 1px solid rgba(101,146,135,0.15); box-shadow: var(--card-shadow);">
+                <h4 style="font-size: 1rem; margin-bottom: 10px; color: var(--dark-text);">Explanation</h4>
+                <p style="font-size: 0.95rem; color: var(--light-text); line-height: 1.6; margin: 0;">{{ crime.definition }}</p>
+            </div>
+            <div class="warning-sign-card" style="background: var(--white); padding: 24px; border-radius: 12px; border: 1px solid rgba(101,146,135,0.15); box-shadow: var(--card-shadow);">
+                <h4 style="font-size: 1rem; margin-bottom: 10px; color: var(--dark-text);">Scenario</h4>
+                <p style="font-size: 0.95rem; color: var(--light-text); line-height: 1.6; margin: 0;">{{ crime.desc }}</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="margin-bottom: 50px;">
+        <div class="section-header" style="text-align: left; margin-bottom: 25px; max-width: 100%;">
+            <h3>Mechanism Flow</h3>
+            <p>Follow the sequence to understand how this offence is committed and why it becomes harmful.</p>
+        </div>
+        <div class="horizontal-flow-container" style="overflow-x: auto; padding: 20px 10px; display: flex; justify-content: space-between; gap: 20px; align-items: stretch; scrollbar-width: thin;">
+            {% for step in crime.how_it_works %}
+            <div class="flow-step-card animate-scroll-item" style="flex: 1; min-width: 180px; text-align: center; background: var(--white); border-radius: 12px; padding: 20px 15px; border: 1px solid rgba(101,146,135,0.12); box-shadow: var(--card-shadow); transition: transform 0.5s;">
+                <div style="font-size: 1.8rem; color: var(--primary-color); margin-bottom: 12px;"><i class="fa-solid fa-arrow-right"></i></div>
+                <p style="font-size: 0.9rem; color: var(--light-text); line-height: 1.5; margin: 0;">{{ step }}</p>
+            </div>
+            {% if not loop.last %}
+            <div class="flow-connector" style="display: flex; align-items: center; font-size: 1.2rem; color: var(--secondary-color);"><i class="fa-solid fa-circle-arrow-right"></i></div>
+            {% endif %} {% endfor %}
+        </div>
+    </section>
+
+    <section style="margin-bottom: 50px;">
+        <div class="section-header" style="text-align: left; margin-bottom: 25px; max-width: 100%;">
+            <h3>Warning Signs</h3>
+            <p>Watch for these signals so you can respond early and avoid becoming a victim or an unwitting accomplice.</p>
+        </div>
+        <div class="warning-signs-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+            {% for sign in crime.warning_signs %}
+            <div class="warning-sign-card shake-hover" style="background: var(--white); padding: 24px; border-radius: 12px; border: 1px solid rgba(101,146,135,0.15); box-shadow: var(--card-shadow); text-align: center;">
+                <div style="font-size: 2rem; color: var(--danger-color); margin-bottom: 14px;"><i class="fa-solid fa-circle-exclamation"></i></div>
+                <p style="font-size: 0.95rem; color: var(--light-text); line-height: 1.5; margin: 0;">{{ sign }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section style="margin-bottom: 50px;">
+        <div class="section-header" style="text-align: left; margin-bottom: 25px; max-width: 100%;">
+            <h3>Prevention Tips</h3>
+            <p>Simple habits that reduce risk and improve protection for yourself, family, and workplace.</p>
+        </div>
+        <div class="warning-signs-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+            {% for tip in crime.safety_tips %}
+            <div class="warning-sign-card" style="background: var(--white); padding: 24px; border-radius: 12px; border: 1px solid rgba(101,146,135,0.15); box-shadow: var(--card-shadow); text-align: center;">
+                <div style="font-size: 2rem; color: var(--success-color); margin-bottom: 14px;"><i class="fa-solid fa-shield-heart"></i></div>
+                <p style="font-size: 0.95rem; color: var(--light-text); line-height: 1.5; margin: 0;">{{ tip }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section style="margin-bottom: 50px;">
+        <div class="section-header" style="text-align: left; margin-bottom: 25px; max-width: 100%;">
+            <h3>Legal Framework</h3>
+            <p>Understand what the law generally focuses on in such cases and why awareness matters.</p>
+        </div>
+        {% if crime_id == 'tampering-source-documents' %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 65 – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Tampering with computer source documents by unauthorized alteration, deletion, concealment, or destruction is a punishable offence. The punishment may extend to 3 years' imprisonment, a fine up to ₹2 lakh, or both.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 43 – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Unauthorized access, copying, downloading, introducing malware, or altering and damaging data or computer systems is a civil offence and may result in compensation liability.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 66 – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">If an offence under Section 43 is committed dishonestly or fraudulently, it becomes a criminal offence punishable with imprisonment up to 3 years, a fine up to ₹5 lakh, or both.</p>
+            </div>
+        </div>
+        <p class="legal-note" style="margin: 20px 0 0; color: #52635f; line-height: 1.75; font-size: 0.95rem; max-width: 780px;">Tampering with computer source code, modifying system files without authorization, or damaging computer resources is illegal and may result in both civil liability and criminal prosecution under the Information Technology Act, 2000.</p>
+        {% elif crime_id == 'cyber-terrorism' %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 66F – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Defines cyber terrorism, including cyber attacks intended to threaten India’s sovereignty, security, defence, or Critical Information Infrastructure (CII). The offence is punishable with imprisonment for life.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 70 – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Protects Critical Information Infrastructure (CII). Unauthorized access to or attempts to interfere with protected systems are punishable offences under the Act.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 70B – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Establishes CERT-In as the national agency for responding to cyber security incidents. Failure to comply with CERT-In’s lawful directions is punishable under the Information Technology Act.</p>
+            </div>
+        </div>
+        <p class="legal-note" style="margin: 20px 0 0; color: #52635f; line-height: 1.75; font-size: 0.95rem; max-width: 780px;">Cyber terrorism, attacks on critical infrastructure, and unauthorized access to protected systems are serious offences under the Information Technology Act, 2000, and may result in severe criminal penalties, including life imprisonment in certain cases.</p>
+        {% elif crime_id == 'offences-by-intermediaries' %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 69A(3) – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Failure to comply with a lawful Government order to block public access to online information is a punishable offence. The punishment may extend to 7 years' imprisonment and a fine.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 69 – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Failure to assist lawful interception, monitoring, or decryption of information when legally directed by the Government is punishable with imprisonment up to 7 years and a fine.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 70B – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Failure to comply with directions issued by CERT-In, including mandatory cyber incident reporting, is punishable with imprisonment up to 1 year, a fine up to ₹1 lakh, or both.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 67C – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Intermediaries that fail to preserve and retain specified information or logs as required by law are punishable with imprisonment up to 3 years, a fine, or both.</p>
+            </div>
+        </div>
+        <p class="legal-note" style="margin: 20px 0 0; color: #52635f; line-height: 1.75; font-size: 0.95rem; max-width: 780px;">Intermediaries must comply with lawful government directions, report cyber security incidents to CERT-In, and preserve required digital records. Non-compliance may result in criminal penalties under the Information Technology Act, 2000.</p>
+        {% elif crime_id == 'dishonest-receiving-computer-resource' %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 66B – Information Technology Act, 2000</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Punishes anyone who dishonestly receives or retains a stolen computer resource or communication device, knowing or having reason to believe it is stolen. The punishment may extend to 3 years' imprisonment, a fine up to ₹1 lakh, or both.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 411 – Bharatiya Nyaya Sanhita (BNS), 2023</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Punishes any person who dishonestly receives or retains stolen property while knowing or having reason to believe that it is stolen.</p>
+            </div>
+            <div style="background: var(--white); padding: 22px; border-radius: 22px; border: 1px solid rgba(101,146,135,0.12); box-shadow: 0 12px 22px rgba(44,108,93,0.05);">
+                <h4 style="margin: 0 0 10px 0; font-size: 1rem; color: var(--dark-text);">Section 317 – Bharatiya Nyaya Sanhita (BNS), 2023</h4>
+                <p style="margin: 0; color: var(--light-text); line-height: 1.7; font-size: 0.95rem;">Covers the offence of theft, including the unlawful taking of a computer resource, communication device, or other movable property without the owner’s consent.</p>
+            </div>
+        </div>
+        <p class="legal-note" style="margin: 20px 0 0; color: #52635f; line-height: 1.75; font-size: 0.95rem; max-width: 780px;">Knowingly receiving, possessing, or using a stolen computer resource or communication device is a criminal offence under Indian law and may result in imprisonment, fines, or both. Always verify the lawful ownership of electronic devices before purchasing or using them.</p>
+        {% else %}
+        <div class="warning-signs-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            {% for point in crime.legal_framework %}
+            <div class="warning-sign-card" style="background: rgba(101,146,135,0.05); padding: 22px; border-radius: 12px; border: 1px solid rgba(101,146,135,0.15);">
+                <p style="font-size: 0.95rem; color: var(--light-text); line-height: 1.6; margin: 0;">{{ point }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </section>
+
+    <section style="margin-bottom: 30px;">
+        <div class="section-header" style="text-align: left; margin-bottom: 20px; max-width: 100%;">
+            <h3>Key Takeaway</h3>
+        </div>
+        <div class="warning-sign-card" style="background: linear-gradient(135deg, rgba(101,146,135,0.12), rgba(230,126,34,0.08)); padding: 24px; border-radius: 12px; border: 1px solid rgba(101,146,135,0.2);">
+            <p style="font-size: 0.98rem; color: var(--dark-text); line-height: 1.7; margin: 0;">{{ crime.key_takeaway }}</p>
+        </div>
+    </section>
+</main>
+{% endblock %}

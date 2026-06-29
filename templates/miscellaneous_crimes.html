@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %}Miscellaneous Crimes – CyberSafe QR{% endblock %} {% block content %}
+<main class="scenarios-container" style="margin-top: 20px;">
+    <div class="category-banner color-misc" style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <div class="banner-content">
+            <h2>⚠️ Miscellaneous Crimes</h2>
+            <p>Explore lesser-known cyber-related crimes, the legal framework around them, and how to stay safe.</p>
+        </div>
+        <a href="{{ url_for('index') }}" class="restart-btn" style="background: rgba(255,255,255,0.25); box-shadow: none; display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+            <i class="fa-solid fa-arrow-left-long"></i> Back to Home
+        </a>
+    </div>
+
+    <div class="section-header" style="margin-bottom: 40px; text-align: left; max-width: 100%;">
+        <h3>Explore Legal and Cyber Crime Topics</h3>
+        <p>Each card below explains a different offence, how it happens, what warning signs to watch for, and the legal lesson behind it.</p>
+    </div>
+
+    <div class="financial-grid" style="margin-bottom: 50px;">
+        {% for crime_id, crime in crimes.items() %}
+        <a href="{{ url_for('miscellaneous_crime_detail', crime_id=crime_id) }}" class="category-card financial-card" style="text-decoration: none; color: inherit; align-items: flex-start; text-align: left; padding: 28px; position: relative; overflow: hidden; border-radius: var(--border-radius); transition: var(--transition);">
+            <div class="card-icon-wrapper color-misc" style="margin-bottom: 16px;">
+                <i class="{{ crime.icon }}"></i>
+            </div>
+            <h3 style="font-size: 1.2rem; margin-bottom: 8px; color: var(--dark-text);">{{ crime.title }}</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 20px; line-height: 1.5; color: var(--light-text);">{{ crime.desc }}</p>
+            <span class="explore-btn" style="font-size: 0.9rem; font-weight: 700; color: var(--primary-color);">Read More <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,625 @@
+{% extends "base.html" %} {% block title %}Data Alteration - CyberSafe QR{% endblock %} {% block head %}
+<style>
+    .data-alteration-page {
+        padding: 72px 5% 50px;
+        background: #edf8f0;
+        min-height: calc(100vh - 70px);
+        overflow-x: hidden;
+    }
+    
+    .page-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+    }
+    
+    .section-panel {
+        background: #ffffff;
+        border-radius: 28px;
+        box-shadow: 0 18px 44px rgba(44, 108, 93, 0.06);
+        border: 1px solid rgba(101, 146, 135, 0.14);
+        padding: 28px;
+        margin-bottom: 28px;
+        overflow: hidden;
+    }
+    
+    .hero-title {
+        font-size: clamp(2.8rem, 5vw, 3.6rem);
+        margin: 0 0 18px 0;
+        color: #1d3b2d;
+    }
+    
+    .hero-description {
+        margin: 0;
+        color: #4b6057;
+        line-height: 1.85;
+        max-width: 760px;
+        font-size: 1rem;
+    }
+    
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: rgba(122, 79, 201, 0.12);
+        color: #6f3fa8;
+        font-weight: 700;
+        font-size: 0.95rem;
+        border: 1px solid rgba(122, 79, 201, 0.18);
+        margin-top: 18px;
+    }
+    
+    .section-heading {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+    
+    .section-heading h2 {
+        margin: 0;
+        font-size: 1.85rem;
+        color: #193a2f;
+    }
+    
+    .section-heading p {
+        margin: 0;
+        color: #52635f;
+        line-height: 1.75;
+        font-size: 0.98rem;
+    }
+    
+    .timeline-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        background: rgba(121, 97, 188, 0.08);
+        padding: 18px;
+        border-radius: 20px;
+        border: 1px solid rgba(122, 79, 201, 0.12);
+    }
+    
+    .timeline-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        background: #ffffff;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        border-radius: 18px;
+        color: #254c3f;
+        font-weight: 700;
+        min-width: 190px;
+        justify-content: center;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    
+    .timeline-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .timeline-arrow {
+        color: #7a4fc9;
+        font-weight: 900;
+        margin: 0 4px;
+    }
+    
+    .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+    }
+    
+    .doc-panel {
+        background: #f9faf9;
+        border-radius: 22px;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        padding: 22px;
+        min-height: 210px;
+        position: relative;
+    }
+    
+    .doc-title {
+        margin: 0 0 14px 0;
+        font-size: 1rem;
+        color: #3a514b;
+        font-weight: 700;
+    }
+    
+    .doc-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 14px;
+        border-radius: 16px;
+        background: #ffffff;
+        margin-bottom: 12px;
+        color: #3c544a;
+        font-size: 0.96rem;
+    }
+    
+    .doc-line strong {
+        font-weight: 700;
+    }
+    
+    .doc-change {
+        position: relative;
+        padding: 12px 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(122, 79, 201, 0.2);
+        background: rgba(122, 79, 201, 0.08);
+        color: #4c2a78;
+        font-weight: 700;
+        animation: pulse-highlight 2.2s ease-in-out infinite;
+    }
+    
+    .story-card {
+        background: #f7fbf6;
+        border: 1px solid rgba(122, 79, 201, 0.14);
+        border-radius: 26px;
+        box-shadow: 0 16px 30px rgba(44, 108, 93, 0.06);
+        padding: 28px;
+        display: grid;
+        gap: 20px;
+    }
+    
+    .section-icon {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: rgba(122, 79, 201, 0.14);
+        color: #7a4fc9;
+        font-size: 1rem;
+    }
+    
+    .story-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+    
+    .incident-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: rgba(122, 79, 201, 0.12);
+        color: #6f3fa8;
+        font-weight: 700;
+        font-size: 0.92rem;
+        border: 1px solid rgba(122, 79, 201, 0.18);
+    }
+    
+    .incident-title {
+        margin: 0;
+        font-size: 1.35rem;
+        color: #1d3b2d;
+        line-height: 1.2;
+    }
+    
+    .incident-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        color: #52635f;
+        font-size: 0.95rem;
+        align-items: center;
+    }
+    
+    .incident-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .story-article {
+        background: #ffffff;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        border-radius: 22px;
+        padding: 22px;
+    }
+    
+    .story-article p {
+        margin: 0;
+        color: #3a514b;
+        line-height: 1.8;
+        font-size: 1rem;
+    }
+    
+    .key-lesson {
+        background: rgba(122, 79, 201, 0.1);
+        border: 1px solid rgba(122, 79, 201, 0.18);
+        border-radius: 22px;
+        padding: 18px 20px;
+        color: #1d3b2d;
+        font-weight: 700;
+        line-height: 1.75;
+    }
+    
+    .key-lesson strong {
+        display: block;
+        margin-bottom: 8px;
+        color: #4b6057;
+        font-weight: 900;
+    }
+    
+    .section-heading h2 {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    @keyframes pulse-highlight {
+        0%,
+        100% {
+            box-shadow: 0 0 0 0 rgba(122, 79, 201, 0.16);
+        }
+        50% {
+            box-shadow: 0 0 0 10px rgba(122, 79, 201, 0.05);
+        }
+    }
+    
+    .scanner-panel {
+        display: grid;
+        gap: 14px;
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 22px;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        box-shadow: 0 18px 34px rgba(44, 108, 93, 0.05);
+    }
+    
+    .scan-title {
+        margin: 0 0 4px 0;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #253f35;
+    }
+    
+    .scan-status {
+        margin: 0;
+        color: #52635f;
+        line-height: 1.7;
+        font-size: 0.95rem;
+    }
+    
+    .scan-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 10px;
+    }
+    
+    .scan-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: 16px;
+        background: #f9faf9;
+        color: #3b5249;
+        font-size: 0.95rem;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+    }
+    
+    .scan-safe {
+        color: #2b6d45;
+        font-weight: 700;
+    }
+    
+    .scan-modified {
+        color: #8c3e8f;
+        font-weight: 700;
+    }
+    
+    .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(160px, 1fr));
+        gap: 16px;
+    }
+    
+    .icon-item {
+        display: grid;
+        gap: 10px;
+        padding: 18px;
+        background: #ffffff;
+        border-radius: 20px;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        color: #344d43;
+        box-shadow: 0 14px 26px rgba(44, 108, 93, 0.04);
+    }
+    
+    .icon-item strong {
+        font-size: 0.98rem;
+        margin: 0;
+    }
+    
+    .icon-item span {
+        color: #5a6d66;
+        font-size: 0.93rem;
+        line-height: 1.7;
+    }
+    
+    .story-panel {
+        background: rgba(122, 79, 201, 0.08);
+        border: 1px solid rgba(122, 79, 201, 0.14);
+        border-radius: 22px;
+        padding: 24px;
+        color: #2f3f46;
+        line-height: 1.8;
+    }
+    
+    .story-panel p {
+        margin: 0;
+        font-size: 1rem;
+    }
+    
+    .checklist {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 12px;
+    }
+    
+    .checklist li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        color: #2f4139;
+        line-height: 1.7;
+    }
+    
+    .checklist li::before {
+        content: "-";
+        font-weight: 700;
+        color: #7a4fc9;
+        margin-top: 2px;
+    }
+    
+    .legal-panel {
+        background: #ffffff;
+        border-radius: 24px;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        padding: 20px;
+        display: grid;
+        gap: 14px;
+    }
+    
+    .legal-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        background: #f8faf8;
+        color: #3b5249;
+        font-weight: 700;
+    }
+    
+    .legal-note {
+        margin: 0;
+        color: #4b6057;
+        line-height: 1.75;
+        font-size: 0.95rem;
+    }
+    
+    .tip-banner {
+        display: grid;
+        gap: 10px;
+        padding: 20px 22px;
+        border-radius: 24px;
+        background: rgba(122, 79, 201, 0.1);
+        border: 1px solid rgba(122, 79, 201, 0.16);
+        box-shadow: 0 16px 34px rgba(122, 79, 201, 0.08);
+    }
+    
+    .tip-banner p {
+        margin: 0;
+        color: #2f3f46;
+        line-height: 1.75;
+        font-size: 0.98rem;
+        font-weight: 700;
+    }
+    
+    .fade-slide {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    
+    .fade-slide.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    @media (max-width: 980px) {
+        .compare-grid,
+        .icon-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (max-width: 720px) {
+        .data-alteration-page {
+            padding: 60px 4% 30px;
+        }
+        .hero-title {
+            font-size: 2.4rem;
+        }
+        .section-panel {
+            padding: 22px;
+        }
+    }
+</style>
+{% endblock %} {% block content %}
+<main class="data-alteration-page">
+    <div class="page-inner">
+        <div class="category-banner color-hac" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div class="banner-content">
+                <h2>💻 {{ attack.title }}</h2>
+                <p>{{ attack.desc }}</p>
+            </div>
+            <a href="{{ url_for('hacking_attacks') }}" class="restart-btn" style="background: rgba(255,255,255,0.25); box-shadow: none; display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+                <i class="fa-solid fa-arrow-left-long"></i> Back to Hacking Attacks
+            </a>
+        </div>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>How It Happens</h2>
+                <p>The attack moves from real data to altered records in a few steps.</p>
+            </div>
+            <div class="timeline-strip">
+                <div class="timeline-item">Original Data</div>
+                <div class="timeline-arrow">-></div>
+                <div class="timeline-item">Attacker Gets Access</div>
+                <div class="timeline-arrow">-></div>
+                <div class="timeline-item">Data Modified</div>
+                <div class="timeline-arrow">-></div>
+                <div class="timeline-item">Fake Information Saved</div>
+                <div class="timeline-arrow">-></div>
+                <div class="timeline-item">User Trusts Incorrect Data</div>
+            </div>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2><span class="section-icon"><i class="fa-solid fa-calendar-days"></i></span> Real-Life Inspired Incident</h2>
+                <p>A small change in digital data can lead to serious consequences.</p>
+            </div>
+            <div class="story-card incident-card">
+                <div class="story-header">
+                    <div class="incident-badge"><i class="fa-solid fa-file-lines"></i> Case File</div>
+                    <h3 class="incident-title">The Missing Rs. 50,000</h3>
+                </div>
+                <div class="incident-meta">
+                    <span><i class="fa-solid fa-calendar"></i> Monday</span>
+                    <span><i class="fa-solid fa-clock"></i> 9:15 AM</span>
+                </div>
+                <div class="story-article">
+                    <p>Priya checked her online bank statement and noticed a payment of Rs. 50,000 she never made. Concerned, she immediately contacted her bank. An investigation revealed that malware had altered her banking records before the transaction
+                        was processed, making the payment appear legitimate. Fortunately, the bank detected the tampering, reversed the transaction, and restored the correct records. Although the money was recovered, the incident caused financial stress
+                        and delayed important payments.</p>
+                </div>
+                <div class="key-lesson"><strong>Key Lesson:</strong> Never ignore unexpected changes in digital data. Verifying information early can help prevent fraud, confusion, and financial or personal loss.</div>
+            </div>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>Data Integrity Scanner</h2>
+                <p>A fake scan shows how modified files stand out from safe documents.</p>
+            </div>
+            <div class="scanner-panel">
+                <p class="scan-title">Scanning Records...</p>
+                <p class="scan-status">Reviewing file integrity across the system.</p>
+                <ul class="scan-list">
+                    <li><span>Document.pdf</span><span class="scan-safe">Safe</span></li>
+                    <li><span>Student_Marks.xlsx</span><span class="scan-modified">Modified</span></li>
+                    <li><span>Invoice.pdf</span><span class="scan-safe">Safe</span></li>
+                    <li><span>Employee_DB.sql</span><span class="scan-modified">Modified</span></li>
+                </ul>
+                <p class="scan-status"><strong>Result:</strong> 2 altered files detected.</p>
+            </div>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>Where Data Can Be Altered</h2>
+            </div>
+            <div class="icon-grid">
+                <div class="icon-item"><strong>Banking Records</strong><span>Account balance and payment details can be changed.</span></div>
+                <div class="icon-item"><strong>Medical Records</strong><span>Health data may be altered to hide or add conditions.</span></div>
+                <div class="icon-item"><strong>Student Marks</strong><span>Grades and scores can be changed in the database.</span></div>
+                <div class="icon-item"><strong>Business Files</strong><span>Contracts and invoices may be tampered with.</span></div>
+                <div class="icon-item"><strong>Website Content</strong><span>Pages and forms can display false information.</span></div>
+                <div class="icon-item"><strong>Government Documents</strong><span>Official records can be modified without notice.</span></div>
+            </div>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>Protect Yourself</h2>
+            </div>
+            <ul class="checklist">
+                <li>Keep regular backups</li>
+                <li>Enable two-factor authentication</li>
+                <li>Limit edit permissions</li>
+                <li>Verify important records</li>
+                <li>Update software regularly</li>
+                <li>Monitor file changes</li>
+            </ul>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>Legal Framework</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                <div style="background: #ffffff; border-radius: 12px; border: 1px solid rgba(101,146,135,0.12); padding: 25px; box-shadow: 0 16px 34px rgba(101,146,135,0.08);">
+                    <h3 style="font-size: 1.15rem; margin: 0 0 10px 0; color: #1f3a30;">Section 43 – Information Technology Act, 2000</h3>
+                    <p style="margin: 0; color: #4b6057; line-height: 1.6; font-size: 0.95rem;">Unauthorized alteration, deletion, modification, or damage to electronic data or computer systems is a civil offence and may result in compensation liability.</p>
+                </div>
+                <div style="background: #ffffff; border-radius: 12px; border: 1px solid rgba(101,146,135,0.12); padding: 25px; box-shadow: 0 16px 34px rgba(101,146,135,0.08);">
+                    <h3 style="font-size: 1.15rem; margin: 0 0 10px 0; color: #1f3a30;">Section 66 – Information Technology Act, 2000</h3>
+                    <p style="margin: 0; color: #4b6057; line-height: 1.6; font-size: 0.95rem;">Altering or damaging computer data dishonestly or fraudulently is a criminal offence punishable with imprisonment of up to 3 years, a fine, or both.</p>
+                </div>
+                <div style="background: #ffffff; border-radius: 12px; border: 1px solid rgba(101,146,135,0.12); padding: 25px; box-shadow: 0 16px 34px rgba(101,146,135,0.08);">
+                    <h3 style="font-size: 1.15rem; margin: 0 0 10px 0; color: #1f3a30;">Section 65 – Information Technology Act, 2000</h3>
+                    <p style="margin: 0; color: #4b6057; line-height: 1.6; font-size: 0.95rem;">Knowingly tampering with, concealing, modifying, or destroying computer source code required by law is punishable with up to 3 years imprisonment, a fine up to ₹2 lakh, or both.</p>
+                </div>
+            </div>
+            <p class="legal-note">Unauthorized modification, deletion, or manipulation of electronic data is illegal and may attract both civil liability and criminal prosecution under the Information Technology Act, 2000.</p>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="tip-banner">
+                <p>Always verify important documents before trusting or sharing them. A small change in data can have a big impact.</p>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %} {% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var items = document.querySelectorAll('.timeline-item');
+        items.forEach(function(item, index) {
+            setTimeout(function() {
+                item.classList.add('visible');
+            }, 120 * index);
+        });
+
+        var fadeItems = document.querySelectorAll('.fade-slide');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        fadeItems.forEach(function(section) {
+            observer.observe(section);
+        });
+    });
+</script>
+{% endblock %}

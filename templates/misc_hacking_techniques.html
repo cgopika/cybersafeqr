@@ -1,0 +1,519 @@
+{% extends "base.html" %} {% block title %}Miscellaneous Hacking Techniques - CyberSafe QR{% endblock %} {% block head %}
+<style>
+    .misc-page {
+        padding: 20px 5% 50px;
+        background: #eef8f0;
+        overflow-x: hidden;
+    }
+    
+    .page-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+    }
+    
+    .section-panel {
+        background: #ffffff;
+        border-radius: 28px;
+        border: 1px solid rgba(101, 146, 135, 0.14);
+        box-shadow: 0 16px 34px rgba(44, 108, 93, 0.06);
+        padding: 28px;
+        margin-bottom: 48px;
+        overflow: hidden;
+    }
+    
+    .section-panel:last-child {
+        margin-bottom: 0;
+    }
+    
+    .hero-section {
+        position: static;
+        min-height: auto;
+        overflow: visible;
+        display: grid;
+        gap: 10px;
+        align-items: start;
+        padding: 14px 22px 16px;
+    }
+    
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(122, 79, 201, 0.12);
+        color: #6f3fa8;
+        border: 1px solid rgba(122, 79, 201, 0.18);
+        font-weight: 700;
+        font-size: 0.88rem;
+    }
+    
+    .hero-title {
+        margin: 0;
+        font-size: clamp(2.2rem, 4.5vw, 3rem);
+        color: #1d3b2d;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+    }
+    
+    .hero-copy {
+        margin: 0;
+        max-width: 48ch;
+        color: #4b6057;
+        line-height: 1.75;
+        font-size: 1rem;
+    }
+    
+    .section-heading {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+    
+    .section-heading h2 {
+        margin: 0;
+        font-size: 1.85rem;
+        color: #193a2f;
+    }
+    
+    .section-heading p {
+        margin: 0;
+        color: #52635f;
+        line-height: 1.75;
+        font-size: 0.98rem;
+        max-width: 780px;
+    }
+    
+    .timeline-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 18px;
+    }
+    
+    .threat-card {
+        background: #f7fbf6;
+        border-radius: 22px;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        padding: 20px;
+        display: grid;
+        gap: 12px;
+        text-align: center;
+        box-shadow: 0 12px 22px rgba(44, 108, 93, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .threat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 32px rgba(44, 108, 93, 0.08);
+    }
+    
+    .threat-icon {
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto;
+        border-radius: 18px;
+        background: rgba(122, 79, 201, 0.12);
+        color: #7a4fc9;
+        font-size: 1.2rem;
+    }
+    
+    .threat-card h3 {
+        margin: 0;
+        font-size: 1rem;
+        color: #1f4337;
+    }
+    
+    .threat-card p {
+        margin: 0;
+        color: #52635f;
+        font-size: 0.94rem;
+        line-height: 1.7;
+    }
+    
+    .know-panel {
+        display: grid;
+        gap: 20px;
+        background: #f7fbf6;
+        border: 1px solid rgba(122, 79, 201, 0.16);
+        border-radius: 24px;
+        padding: 28px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .know-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .know-meta {
+        margin: 0;
+        color: #4b6057;
+        font-size: 0.95rem;
+    }
+    
+    .know-text {
+        margin: 0;
+        color: #274135;
+        font-size: 1rem;
+        line-height: 1.8;
+        min-height: 4.5rem;
+        transition: opacity 0.5s ease;
+    }
+    
+    .know-controls {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+    
+    .know-button {
+        border: 1px solid rgba(122, 79, 201, 0.18);
+        background: #ffffff;
+        color: #4b6057;
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.25s ease, transform 0.25s ease;
+    }
+    
+    .know-button:hover {
+        background: rgba(122, 79, 201, 0.08);
+        transform: translateY(-2px);
+    }
+    
+    .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 18px;
+    }
+    
+    .risk-card {
+        background: #ffffff;
+        border-radius: 22px;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        padding: 20px;
+        display: grid;
+        gap: 14px;
+        box-shadow: 0 12px 22px rgba(44, 108, 93, 0.05);
+    }
+    
+    .risk-card i {
+        font-size: 1.4rem;
+        color: #7a4fc9;
+    }
+    
+    .risk-card h3 {
+        margin: 0;
+        font-size: 1rem;
+        color: #1f4337;
+    }
+    
+    .risk-card p {
+        margin: 0;
+        color: #52635f;
+        font-size: 0.95rem;
+        line-height: 1.75;
+    }
+    
+    .legal-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 18px;
+    }
+    
+    .legal-box {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 22px;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        box-shadow: 0 12px 22px rgba(44, 108, 93, 0.05);
+    }
+    
+    .legal-box h3 {
+        margin: 0 0 8px 0;
+        font-size: 1rem;
+        color: #1d3b2d;
+    }
+    
+    .legal-box p {
+        margin: 0;
+        color: #52635f;
+        line-height: 1.7;
+        font-size: 0.95rem;
+    }
+    
+    .legal-note {
+        margin: 20px 0 0;
+        color: #52635f;
+        line-height: 1.75;
+        font-size: 0.95rem;
+        max-width: 780px;
+    }
+    
+    .tip-banner {
+        display: grid;
+        gap: 12px;
+        padding: 24px;
+        border-radius: 24px;
+        background: rgba(122, 79, 201, 0.1);
+        border: 1px solid rgba(122, 79, 201, 0.16);
+        box-shadow: 0 16px 32px rgba(122, 79, 201, 0.08);
+    }
+    
+    .tip-banner p {
+        margin: 0;
+        color: #1d3b2d;
+        font-size: 1rem;
+        line-height: 1.8;
+        font-weight: 700;
+    }
+    
+    .fade-slide {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    
+    .fade-slide.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    @media (max-width: 1040px) {
+        .timeline-row,
+        .risk-grid,
+        .legal-grid {
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+        }
+    }
+    
+    @media (max-width: 720px) {
+        .misc-page {
+            padding: 20px 4% 30px;
+        }
+        .section-panel {
+            margin-bottom: 36px;
+            padding: 24px;
+        }
+        .timeline-row,
+        .risk-grid,
+        .legal-grid {
+            grid-template-columns: 1fr;
+        }
+        .know-heading {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .know-controls {
+            justify-content: flex-start;
+        }
+    }
+</style>
+{% endblock %} {% block content %}
+<main class="misc-page">
+    <div class="page-inner">
+        <div class="category-banner color-hac" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div class="banner-content">
+                <h2>💻 {{ attack.title }}</h2>
+                <p>{{ attack.desc }}</p>
+            </div>
+            <a href="{{ url_for('hacking_attacks') }}" class="restart-btn" style="background: rgba(255,255,255,0.25); box-shadow: none; display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+                <i class="fa-solid fa-arrow-left-long"></i> Back to Hacking Attacks
+            </a>
+        </div>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>Hidden Cyber Threats</h2>
+                <p>These techniques often hide in normal devices and everyday online activity.</p>
+            </div>
+            <div class="timeline-row">
+                <div class="threat-card">
+                    <div class="threat-icon"><i class="fa-solid fa-keyboard"></i></div>
+                    <h3>Keylogger</h3>
+                    <p>Records everything typed, including passwords.</p>
+                </div>
+                <div class="threat-card">
+                    <div class="threat-icon"><i class="fa-solid fa-user-secret"></i></div>
+                    <h3>Session Hijacking</h3>
+                    <p>Takes over an active login session without your permission.</p>
+                </div>
+                <div class="threat-card">
+                    <div class="threat-icon"><i class="fa-solid fa-network-wired"></i></div>
+                    <h3>DNS Spoofing</h3>
+                    <p>Redirects you to a fake website while the address looks normal.</p>
+                </div>
+                <div class="threat-card">
+                    <div class="threat-icon"><i class="fa-solid fa-wifi"></i></div>
+                    <h3>Evil Twin Wi-Fi</h3>
+                    <p>Fake Wi-Fi spots pose as trusted networks.</p>
+                </div>
+                <div class="threat-card">
+                    <div class="threat-icon"><i class="fa-solid fa-usb-drive"></i></div>
+                    <h3>USB Malware</h3>
+                    <p>An infected drive can install harmful software instantly.</p>
+                </div>
+                <div class="threat-card">
+                    <div class="threat-icon"><i class="fa-solid fa-bug"></i></div>
+                    <h3>Zero-Day Exploit</h3>
+                    <p>Uses a security flaw before anyone can fix it.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>Did You Know?</h2>
+                <p>Important facts that explain how small actions can lead to big risk.</p>
+            </div>
+            <div class="know-panel">
+                <div class="know-heading">
+                    <p class="know-meta">Automatic facts change every 5 seconds.</p>
+                    <div class="know-controls">
+                        <button class="know-button" id="prevFact">Previous</button>
+                        <button class="know-button" id="nextFact">Next</button>
+                    </div>
+                </div>
+                <p class="know-text" id="knowText"></p>
+            </div>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>Everyday Risks</h2>
+                <p>These common digital objects can become security threats if not treated carefully.</p>
+            </div>
+            <div class="risk-grid">
+                <div class="risk-card"><i class="fa-solid fa-usb-drive"></i>
+                    <h3>Unknown USB Drive</h3>
+                    <p>Could contain hidden malware.</p>
+                </div>
+                <div class="risk-card"><i class="fa-solid fa-wifi"></i>
+                    <h3>Public Wi-Fi</h3>
+                    <p>May expose your connection to attackers.</p>
+                </div>
+                <div class="risk-card"><i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <h3>Fake Software Update</h3>
+                    <p>Can install dangerous programs instead of fixes.</p>
+                </div>
+                <div class="risk-card"><i class="fa-solid fa-puzzle-piece"></i>
+                    <h3>Unknown Browser Extension</h3>
+                    <p>May collect data without your knowledge.</p>
+                </div>
+                <div class="risk-card"><i class="fa-solid fa-qrcode"></i>
+                    <h3>Suspicious QR Code</h3>
+                    <p>Can open unsafe links or downloads.</p>
+                </div>
+                <div class="risk-card"><i class="fa-solid fa-file-circle-question"></i>
+                    <h3>Unknown Email Attachment</h3>
+                    <p>May carry hidden malware or links.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="section-heading">
+                <h2>Legal Framework</h2>
+                <p>Indian law applies to unauthorized use and misuse of computer systems.</p>
+            </div>
+            <div class="legal-grid">
+                <div class="legal-box">
+                    <h3>Section 66C – Information Technology Act, 2000</h3>
+                    <p>Punishes identity theft, including the illegal use of another person's password, digital signature, or unique electronic identity. The punishment may extend to 3 years' imprisonment, a fine up to ₹1 lakh, or both.</p>
+                </div>
+                <div class="legal-box">
+                    <h3>Section 66D – Information Technology Act, 2000</h3>
+                    <p>Punishes cheating by personation using computer resources, such as online scams, fake identities, or fraudulent digital impersonation. The punishment may extend to 3 years' imprisonment, a fine up to ₹1 lakh, or both.</p>
+                </div>
+                <div class="legal-box">
+                    <h3>Section 43 – Information Technology Act, 2000</h3>
+                    <p>Unauthorized access, downloading, copying, introducing malware, or causing damage to computer systems is a civil offence and may result in compensation liability.</p>
+                </div>
+                <div class="legal-box">
+                    <h3>Section 66 – Information Technology Act, 2000</h3>
+                    <p>Hacking or unauthorized access carried out dishonestly or fraudulently is a criminal offence punishable with imprisonment of up to 3 years, a fine, or both.</p>
+                </div>
+            </div>
+            <p class="legal-note">Unauthorized hacking, identity theft, digital impersonation, and other computer-related offences are punishable under the Information Technology Act, 2000. Always access computer systems and digital accounts only with proper authorization.</p>
+        </section>
+
+        <section class="section-panel fade-slide">
+            <div class="tip-banner">
+                <p>Cyber attacks don&rsquo;t always announce themselves. Stay alert, verify before you trust, and practice safe digital habits every day.</p>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %} {% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const facts = [
+            'A keylogger can secretly record everything you type, including passwords.',
+            'Fake Wi-Fi networks can look almost identical to real ones.',
+            'Plugging an unknown USB drive into your computer can install malware automatically.',
+            'Some browser extensions can collect your browsing data without your knowledge.',
+            'Software updates often fix security vulnerabilities that hackers exploit.',
+            'Reusing the same password across multiple accounts increases your risk if one account is compromised.'
+        ];
+        let currentIndex = 0;
+        const knowText = document.getElementById('knowText');
+        const prevButton = document.getElementById('prevFact');
+        const nextButton = document.getElementById('nextFact');
+        let autoRotate = null;
+
+        function showFact(index) {
+            knowText.style.opacity = '0';
+            setTimeout(() => {
+                knowText.textContent = facts[index];
+                knowText.style.opacity = '1';
+            }, 250);
+        }
+
+        function setIndex(index) {
+            currentIndex = (index + facts.length) % facts.length;
+            showFact(currentIndex);
+        }
+
+        prevButton.addEventListener('click', () => {
+            setIndex(currentIndex - 1);
+            resetAutoRotate();
+        });
+
+        nextButton.addEventListener('click', () => {
+            setIndex(currentIndex + 1);
+            resetAutoRotate();
+        });
+
+        function resetAutoRotate() {
+            if (autoRotate) {
+                clearInterval(autoRotate);
+            }
+            autoRotate = setInterval(() => setIndex(currentIndex + 1), 5000);
+        }
+
+        setIndex(0);
+        resetAutoRotate();
+
+        const fadeItems = document.querySelectorAll('.fade-slide');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.18
+        });
+        fadeItems.forEach(item => observer.observe(item));
+    });
+</script>
+{% endblock %}

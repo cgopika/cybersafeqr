@@ -1,0 +1,345 @@
+﻿{% extends 'base.html' %} {% block title %}Data Theft - CyberSafe QR{% endblock %} {% block head %}
+<style>
+    .data-theft-page {
+        padding: 80px 5% 40px;
+        min-height: calc(100vh - 70px);
+        overflow-x: hidden;
+        background: var(--page-bg, #f7faf5);
+    }
+    
+    .page-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+    }
+    
+    .hero-panel {
+        display: grid;
+        gap: 18px;
+        padding: 22px 24px;
+        border-radius: 24px;
+        background: var(--white);
+        box-shadow: var(--card-shadow);
+        margin-bottom: 28px;
+    }
+    
+    .hero-title {
+        font-size: clamp(2.4rem, 5vw, 3.2rem);
+        margin: 0;
+        line-height: 1.05;
+    }
+    
+    .hero-copy {
+        max-width: 760px;
+        color: var(--light-text);
+        line-height: 1.75;
+        margin: 0;
+    }
+    
+    .section-block {
+        margin-bottom: 30px;
+    }
+    
+    .section-heading h2 {
+        font-size: 1.75rem;
+        margin: 0 0 10px 0;
+    }
+    
+    .how-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        padding: 18px;
+        background: var(--white);
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+    }
+    
+    .how-step,
+    .how-arrow {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--dark-text);
+    }
+    
+    .how-arrow {
+        color: var(--primary-color);
+    }
+    
+    .card-grid,
+    .impact-grid,
+    .legal-grid {
+        display: grid;
+        gap: 16px;
+    }
+    
+    .card-grid,
+    .impact-grid,
+    .legal-grid {
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+    }
+    
+    .small-card,
+    .impact-card,
+    .legal-card,
+    .bot-card {
+        background: var(--white);
+        padding: 18px;
+        border-radius: 20px;
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        box-shadow: var(--card-shadow);
+    }
+    
+    .small-card h3,
+    .impact-card h3,
+    .legal-card h3 {
+        font-size: 1rem;
+        margin: 0 0 8px 0;
+    }
+    
+    .small-card p,
+    .impact-card p,
+    .legal-card p,
+    .bot-card p {
+        margin: 0;
+        color: var(--light-text);
+        line-height: 1.7;
+        font-size: 0.95rem;
+    }
+    
+    .warning-list,
+    .protect-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 10px;
+    }
+    
+    .warning-list li,
+    .protect-list li {
+        padding: 14px 16px;
+        background: var(--white);
+        border: 1px solid rgba(101, 146, 135, 0.12);
+        border-radius: 16px;
+        color: var(--dark-text);
+    }
+    
+    .bot-card {
+        display: grid;
+        gap: 10px;
+    }
+    
+    .bot-title {
+        font-size: 1rem;
+        margin: 0 0 6px 0;
+        font-weight: 700;
+    }
+    
+    .note-text {
+        max-width: 760px;
+        color: var(--light-text);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-top: 12px;
+    }
+    
+    @media (max-width: 900px) {
+        .card-grid,
+        .impact-grid,
+        .legal-grid {
+            grid-template-columns: repeat(2, minmax(180px, 1fr));
+        }
+    }
+    
+    @media (max-width: 640px) {
+        .data-theft-page {
+            padding: 60px 4% 30px;
+        }
+        .card-grid,
+        .impact-grid,
+        .legal-grid {
+            grid-template-columns: 1fr;
+        }
+        .how-line {
+            gap: 10px;
+            padding: 16px;
+        }
+        .hero-panel {
+            padding: 18px 20px;
+        }
+    }
+</style>
+{% endblock %} {% block content %}
+<main class='data-theft-page'>
+    <div class='page-inner'>
+        <div class="category-banner color-hac" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div class="banner-content">
+                <h2>💻 {{ attack.title }}</h2>
+                <p>{{ attack.desc }}</p>
+            </div>
+            <a href="{{ url_for('hacking_attacks') }}" class="restart-btn" style="background: rgba(255,255,255,0.25); box-shadow: none; display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+                <i class="fa-solid fa-arrow-left-long"></i> Back to Hacking Attacks
+            </a>
+        </div>
+
+        <section class='section-block'>
+            <div class='section-heading'>
+                <h2>How Data Theft Happens</h2>
+            </div>
+            <div class='how-line'>
+                <span class='how-step'>Malware Installed</span>
+                <span class='how-arrow'>-></span>
+                <span class='how-step'>Device Scanned</span>
+                <span class='how-arrow'>-></span>
+                <span class='how-step'>Sensitive Data Collected</span>
+                <span class='how-arrow'>-></span>
+                <span class='how-step'>Data Sent to Attacker</span>
+                <span class='how-arrow'>-></span>
+                <span class='how-step'>Victim Suffers Loss</span>
+            </div>
+        </section>
+
+        <section class='section-block'>
+            <div class='section-heading'>
+                <h2>What Can Be Stolen</h2>
+            </div>
+            <div class='card-grid'>
+                <div class='small-card'>
+                    <h3>Passwords</h3>
+                    <p>Login details that unlock accounts.</p>
+                </div>
+                <div class='small-card'>
+                    <h3>Banking Details</h3>
+                    <p>Card numbers and account information.</p>
+                </div>
+                <div class='small-card'>
+                    <h3>Aadhaar/PAN</h3>
+                    <p>Official identity information used for fraud.</p>
+                </div>
+                <div class='small-card'>
+                    <h3>Email Accounts</h3>
+                    <p>Access to email can lead to more account takeovers.</p>
+                </div>
+                <div class='small-card'>
+                    <h3>Photos and Documents</h3>
+                    <p>Private files can be copied or misused.</p>
+                </div>
+                <div class='small-card'>
+                    <h3>Saved Browser Data</h3>
+                    <p>Autofill and cookies can reveal account sessions.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class='section-block'>
+            <div class='section-heading'>
+                <h2>Warning Signs</h2>
+            </div>
+            <ul class='warning-list'>
+                <li>Unknown login alerts</li>
+                <li>Unexpected password reset emails</li>
+                <li>Strange bank transactions</li>
+                <li>Missing or modified files</li>
+                <li>Slow device performance</li>
+                <li>Unknown apps installed</li>
+            </ul>
+        </section>
+
+        <section class='section-block'>
+            <div class='section-heading'>
+                <h2>Consequences</h2>
+            </div>
+            <div class='impact-grid'>
+                <div class='impact-card'>
+                    <h3>Identity Theft</h3>
+                    <p>Attackers can use your identity without permission.</p>
+                </div>
+                <div class='impact-card'>
+                    <h3>Financial Loss</h3>
+                    <p>Accounts and cards may be drained or charged.</p>
+                </div>
+                <div class='impact-card'>
+                    <h3>Account Takeover</h3>
+                    <p>Your online accounts can be hijacked.</p>
+                </div>
+                <div class='impact-card'>
+                    <h3>Privacy Breach</h3>
+                    <p>Private messages and files can be exposed.</p>
+                </div>
+                <div class='impact-card'>
+                    <h3>Reputation Damage</h3>
+                    <p>Stolen data can be used against you.</p>
+                </div>
+                <div class='impact-card'>
+                    <h3>Blackmail</h3>
+                    <p>Attackers may demand money to keep stolen data private.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class='section-block'>
+            <div class='section-heading'>
+                <h2>Protection Tips</h2>
+            </div>
+            <ul class='protect-list'>
+                <li>Use strong passwords</li>
+                <li>Enable two-factor authentication</li>
+                <li>Download only from trusted websites</li>
+                <li>Keep software updated</li>
+                <li>Use antivirus</li>
+                <li>Backup important files</li>
+            </ul>
+        </section>
+
+        <section class='section-block'>
+            <div class='section-heading'>
+                <h2>Legal Framework</h2>
+            </div>
+            <div class='legal-grid'>
+                <div class='legal-card'>
+                    <h3>Section 43 – Information Technology Act, 2000</h3>
+                    <p>Unauthorized access, copying, downloading, or extracting data from a computer system without permission is a civil offence and may result in compensation liability.</p>
+                </div>
+                <div class='legal-card'>
+                    <h3>Section 66 – Information Technology Act, 2000</h3>
+                    <p>If data theft is committed dishonestly or fraudulently, it becomes a criminal offence punishable with imprisonment of up to 3 years, a fine, or both.</p>
+                </div>
+                <div class='legal-card'>
+                    <h3>Section 72 – Information Technology Act, 2000</h3>
+                    <p>Punishes any person who, without consent, accesses or discloses electronic information in breach of confidentiality or privacy. Punishment may extend to 2 years' imprisonment, a fine up to ₹1 lakh, or both.</p>
+                </div>
+            </div>
+            <p class='note-text'>Accessing, copying, or disclosing another person's confidential electronic data without authorization is illegal and may lead to criminal penalties under the Information Technology Act, 2000.</p>
+        </section>
+
+        <section class='section-block'>
+            <div class='bot-card'>
+                <h3 class='bot-title'>CyberBot Tip</h3>
+                <p>Malware can steal data silently. If your device behaves unusually, disconnect it from the internet and run a security scan.</p>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %} {% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var titleText = 'Data Theft';
+        var titleElement = document.querySelector('.hero-title');
+        if (!titleElement) {
+            return;
+        }
+        titleElement.textContent = '';
+        var index = 0;
+        var interval = setInterval(function() {
+            if (index <= titleText.length) {
+                titleElement.textContent = titleText.slice(0, index);
+                index += 1;
+            } else {
+                clearInterval(interval);
+            }
+        }, 80);
+    });
+</script>
+{% endblock %}
