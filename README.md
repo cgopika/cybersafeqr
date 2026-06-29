@@ -9,6 +9,11 @@
 https://cybersafeqr.onrender.com
 
 ---
+## 📱 Scan to Visit
+
+<p align="center">
+  <img src="qrcode.png" alt="Cyber Safe QR Code" width="250">
+</p>
 
 # 📜 Project Overview
 
